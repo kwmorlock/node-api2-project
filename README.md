@@ -9,7 +9,7 @@
 
 ## Description
 
-Use `Node.js` and `Express` to build an API that performs _CRUD_ operations on `blog posts`.
+Use `Node.js` and `Express` to build an API that performs _CRUD_ operations on `blog posts`..
 
 ### Project Setup
 
