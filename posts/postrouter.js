@@ -4,7 +4,7 @@ const Db = require("../data/db");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/api/posts", (req, res) => {
     Db.find(req.query)
       .then(db => {
         res.status(200).json(db);
@@ -12,26 +12,24 @@ router.get("/", (req, res) => {
       .catch(error => {
         // log error to database
         console.log(error);
-        res.status(500).json({
-          message: "Error retrieving the hubs",
-        });
+        res.status(500).json({ error: "The posts information could not be retrieved." });
       });
   });
   
-  router.get("/:id", (req, res) => {
+  router.get("/api/users/:id", (req, res) => {
     Db.findById(req.params.id)
       .then(db => {
         if (db) {
           res.status(200).json(db);
         } else {
-          res.status(404).json({ message: "Hub not found" });
+          res.status(404).json({ message: "The post with the specified ID does not exist." });
         }
       })
       .catch(error => {
         // log error to database
         console.log(error);
         res.status(500).json({
-          message: "Error retrieving the hub",
+          message: "Error retrieving the db",
         });
       });
   });
@@ -88,7 +86,7 @@ router.get("/", (req, res) => {
   });
   
   // add an endpoint that returns all the messages for a hub
-  router.get("/:id/messages", (req, res) => {
+  router.get("/api/posts/:id/comments", (req, res) => {
     Db.findDbMessages(req.params.id)
       .then(messages => {
         res.status(200).json({ data: messages });
@@ -96,8 +94,8 @@ router.get("/", (req, res) => {
       .catch(error => {
         console.log("error", error);
   
-        res.status(500).json({
-          message: "we ran into an issue retrieving the messages",
+        res.status(404).json({
+          message: "The post with the specified ID does not exist." ,
           error: error.message,
         });
       });
