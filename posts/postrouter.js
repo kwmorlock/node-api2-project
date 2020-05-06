@@ -81,21 +81,21 @@ router.get("/api/posts", (req, res) => {
       });
   });
   
-  router.put("/:id", (req, res) => {
+  router.put("/api/posts/:id", (req, res) => {
     const changes = req.body;
     Db.update(req.params.id, changes)
       .then(db => {
         if (db) {
           res.status(200).json(db);
         } else {
-          res.status(404).json({ message: "The hub could not be found" });
+          res.status(404).json({ message: "The post with the specified ID does not exist." });
         }
       })
       .catch(error => {
         // log error to database
         console.log(error);
         res.status(500).json({
-          message: "Error updating the hub",
+            error: "The post information could not be modified.",
         });
       });
   });
