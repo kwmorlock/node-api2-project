@@ -6,10 +6,11 @@ server.use(express.json());
 
 
 server.get("/", (req, res) => {
-    res.json({ query: req.query, params: req.params, headers: req.headers });
+    res.send( "hello" );
   });
   
   server.use("/api/posts", postRouter);
+  //.use will send to where the get / is
   
   server.listen(4000, () => {
     console.log("\n*** Server Running on http://localhost:4000 ***\n");

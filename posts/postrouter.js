@@ -1,22 +1,21 @@
 const express = require("express");
-const server = express();
+// const server = express();
 const Db = require("../data/db");
 
 const router = express.Router();
 
-router.get("/api/posts", (req, res) => {
-    Db.find(req.query)
+router.get("/", (req, res) => {
+    Db.find()
       .then(db => {
         res.status(200).json(db);
       })
       .catch(error => {
-        // log error to database
         console.log(error);
         res.status(500).json({ error: "The posts information could not be retrieved." });
       });
   });
   
-  router.get("/api/users/:id", (req, res) => {
+  router.get("/api/posts/:id", (req, res) => {
     Db.findById(req.params.id)
       .then(db => {
         if (db) {
@@ -26,7 +25,6 @@ router.get("/api/posts", (req, res) => {
         }
       })
       .catch(error => {
-        // log error to database
         console.log(error);
         res.status(500).json({
           message: "Error retrieving the db",
@@ -40,7 +38,6 @@ router.get("/api/posts", (req, res) => {
         res.status(201).json(db);
       })
       .catch(error => {
-        // log error to database
         console.log(error);
         res.status(500).json({
             error: "There was an error while saving the post to the database" ,
@@ -54,7 +51,6 @@ router.get("/api/posts", (req, res) => {
         res.status(201).json(db);
       })
       .catch(error => {
-        // log error to database
         console.log(error);
         res.status(404).json({
             message: "The post with the specified ID does not exist."  ,
@@ -73,7 +69,6 @@ router.get("/api/posts", (req, res) => {
         }
       })
       .catch(error => {
-        // log error to database
         console.log(error);
         res.status(500).json({
             error: "The post could not be removed",
@@ -92,7 +87,6 @@ router.get("/api/posts", (req, res) => {
         }
       })
       .catch(error => {
-        // log error to database
         console.log(error);
         res.status(500).json({
             error: "The post information could not be modified.",
