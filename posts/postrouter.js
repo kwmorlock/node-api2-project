@@ -49,7 +49,7 @@ router.get("/api/posts", (req, res) => {
   });
 
   router.post("/api/posts/:id/comments", (req, res) => {
-    Db.insert(req.body)
+    Db.insertComment(req.body)
       .then(db => {
         res.status(201).json(db);
       })
@@ -63,20 +63,20 @@ router.get("/api/posts", (req, res) => {
   });
 
   
-  router.delete("/:id", (req, res) => {
+  router.delete("/api/posts/:id", (req, res) => {
     Db.remove(req.params.id)
       .then(count => {
         if (count > 0) {
-          res.status(200).json({ message: "The hub has been nuked" });
+          res.status(200).json({ message: "The post has been removed" });
         } else {
-          res.status(404).json({ message: "The hub could not be found" });
+          res.status(404).json({ message: "The post with the specified ID does not exist." });
         }
       })
       .catch(error => {
         // log error to database
         console.log(error);
         res.status(500).json({
-          message: "Error removing the hub",
+            error: "The post could not be removed",
         });
       });
   });
@@ -100,7 +100,7 @@ router.get("/api/posts", (req, res) => {
       });
   });
   
-  // add an endpoint that returns all the messages for a hub
+ 
   router.get("/api/posts/:id/comments", (req, res) => {
     Db.findPostComments(req.params.id)
       .then(messages => {
@@ -116,8 +116,6 @@ router.get("/api/posts", (req, res) => {
       });
   });
   
-  // add an endpoint for adding new message to a hub
-  // POST /api/messages --> hub_id is part of the request.body
-  // POST /api/hubs/:id/messages --> have the hub_id on the URL
+  
   
   module.exports = router;
