@@ -34,8 +34,8 @@ router.get("/api/posts", (req, res) => {
       });
   });
   
-  router.post("/", (req, res) => {
-    Db.add(req.body)
+  router.post("/api/posts", (req, res) => {
+    Db.insert(req.body)
       .then(db => {
         res.status(201).json(db);
       })
@@ -43,10 +43,25 @@ router.get("/api/posts", (req, res) => {
         // log error to database
         console.log(error);
         res.status(500).json({
-          message: "Error adding the hub",
+            error: "There was an error while saving the post to the database" ,
         });
       });
   });
+
+  router.post("/api/posts/:id/comments", (req, res) => {
+    Db.insert(req.body)
+      .then(db => {
+        res.status(201).json(db);
+      })
+      .catch(error => {
+        // log error to database
+        console.log(error);
+        res.status(404).json({
+            message: "The post with the specified ID does not exist."  ,
+        });
+      });
+  });
+
   
   router.delete("/:id", (req, res) => {
     Db.remove(req.params.id)
@@ -87,7 +102,7 @@ router.get("/api/posts", (req, res) => {
   
   // add an endpoint that returns all the messages for a hub
   router.get("/api/posts/:id/comments", (req, res) => {
-    Db.findDbMessages(req.params.id)
+    Db.findPostComments(req.params.id)
       .then(messages => {
         res.status(200).json({ data: messages });
       })
